@@ -1,8 +1,8 @@
 import sys
 
-INPUT_PATH = 'original.cs'
-MID_PATH = 'mid.cs'
-OUTPUT_PATH = 'output.cs'
+INPUT_PATH = 'cs/original.cs'
+MID_PATH = 'cs/mid.cs'
+OUTPUT_PATH = 'cs/output.cs'
 PARAMS = ['Flow', 'Velocity', 'Depth']
 PARAM_TO_CHAR = {'Flow': 'Q', 'Velocity': 'V', 'Depth': 'D'}
 

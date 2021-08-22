@@ -1,9 +1,9 @@
 import re
 from collections import OrderedDict
 
-INPUT_PATH = 'original.inp'
-FORMAT_PATH = 'format.inp'
-OUTPUT_PATH = 'output.inp'
+INPUT_PATH = 'inp/original.inp'
+FORMAT_PATH = 'inp/format.inp'
+OUTPUT_PATH = 'inp/output.inp'
 
 
 def extract_lines(path):
