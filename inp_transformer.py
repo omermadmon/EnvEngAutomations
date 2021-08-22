@@ -25,17 +25,41 @@ def split_inp_to_blocks(path):
     # Append last block:
     current_block.append(len(lines) - 1)
     res[current_title] = tuple(current_block)
+    del res['']
     return res
 
 
-def main():
-    lines = extract_lines(INPUT_PATH)
-    blocks = split_inp_to_blocks(INPUT_PATH)
+def replace_blocks(output_path, original_file_path, alternative_file_path, block_to_remove, block_to_add):
+    # Load original and alternative files:
+    original_lines = extract_lines(original_file_path)
+    alternative_lines = extract_lines(alternative_file_path)
 
-    for title, (beg, end) in blocks.items():
-        for i in range(beg, end):
-            print(lines[i], end='')
-        print()
+    # Split original and alternative files to blocks and validate blocks to swap:
+    original_blocks = split_inp_to_blocks(original_file_path)
+    alternative_blocks = split_inp_to_blocks(alternative_file_path)
+    assert block_to_remove in original_blocks.keys()
+    assert block_to_add in alternative_blocks.keys()
+
+    # Write output file:
+    with open(output_path, "w") as f:
+        for block in original_blocks.keys():
+            if block == block_to_remove:
+                beg, end = alternative_blocks[block_to_add]
+                for i in range(beg, end):
+                    f.write(alternative_lines[i])
+            else:
+                beg, end = original_blocks[block]
+                for i in range(beg, end):
+                    f.write(original_lines[i])
+            f.write('\n')
+
+
+def main():
+    replace_blocks(output_path=OUTPUT_PATH,
+                   original_file_path=INPUT_PATH,
+                   alternative_file_path=FORMAT_PATH,
+                   block_to_remove='[INFLOWS]',
+                   block_to_add='[POLLUTANTS]')
 
 
 if __name__ == '__main__':
