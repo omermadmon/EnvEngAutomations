@@ -1,4 +1,5 @@
-EDGES_NUM = 5
+import sys
+
 INPUT_PATH = 'original.cs'
 MID_PATH = 'mid.cs'
 OUTPUT_PATH = 'output.cs'
@@ -63,6 +64,11 @@ def create_code_lines_for_writing_param(param, edges_num):
 
 
 def main():
+    # Collect and validate arguments:
+    assert len(sys.argv) == 2
+    assert int(sys.argv[1]) > 0
+    edges_num = int(sys.argv[1])
+
     # First pass - iterate over original file lines.
     # Replace each block that has to be modified with a suitable note.
     # TODO(omermadmon): complete saving result text files in the corresponding scenario folder.
@@ -97,11 +103,11 @@ def main():
         for line in lines:
             if line in [f'COMPLETE MATRIX FOR PARAM: {param.upper()}\n' for param in PARAMS]:
                 param = line.split(' ')[-1][:-1]
-                for edge_num in range(1, EDGES_NUM):
+                for edge_num in range(1, edges_num):
                     f.write(create_matrix_code_line(param.capitalize(), edge_num))
             elif line in [f'COMPLETE WRITING FOR PARAM: {param}\n' for param in PARAMS]:
                 param = line.split(' ')[-1][:-1]
-                for code_line in create_code_lines_for_writing_param(param, EDGES_NUM):
+                for code_line in create_code_lines_for_writing_param(param, edges_num):
                     f.write(code_line)
                     f.write('\n')
             else:
