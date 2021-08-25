@@ -5,6 +5,27 @@ INPUT_PATH = 'inp/original.inp'
 FORMAT_PATH = 'inp/format.inp'
 OUTPUT_PATH = 'inp/output.inp'
 
+block_to_take_from_format = [
+    '[OPTIONS]',
+    '[POLLUTANTS]',
+    # '[PROFILES]'  # TODO(omermadmon): figure out if this is needed.
+]
+
+block_to_take_from_original = [
+    '[JUNCTIONS]',
+    '[OUTFALLS]',
+    '[CONDUITS]',
+    '[XSECTIONS]',
+    # '[CURVES]'  # TODO(omermadmon): figure out if this is needed.
+    # '[REPORT]'  # TODO(omermadmon): figure out if this is needed.
+    '[TAGS]',
+    '[MAP]',
+    '[COORDINATES]',
+    '[VERTICES]'
+]
+
+# TODO(omermadmon): add a function for adding rows for [POLLUTANTS]
+
 
 def extract_lines(path):
     # TODO(omermadmon): verify encoding.
