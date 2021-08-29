@@ -5,6 +5,7 @@ INPUT_PATH = 'inp/original.inp'
 FORMAT_PATH = 'inp/format.inp'
 REPLACE_OUTPUT_PATH = 'inp/replace_output.inp'
 MERGE_OUTPUT_PATH = 'inp/merge_output.inp'
+ADD_ROWS_OUTPUT_PATH = 'inp/add_rows_output.inp'
 
 block_to_take_from_format = [
     '[OPTIONS]',
@@ -26,6 +27,26 @@ block_to_take_from_original = [
 ]
 
 # TODO(omermadmon): add a function for adding rows for [POLLUTANTS]
+
+
+def pollutants_row(p):
+    assert len(p) == 7
+    return f'  {p[0]}               {p[1]}   {p[2]}        {p[3]}        {p[4]}        {p[5]}        {p[6]}'
+
+
+def add_pollutants_rows(input_path, rows, output_path):
+    lines = extract_lines(input_path)
+    _, end = split_inp_to_blocks(input_path)['[POLLUTANTS]']
+    with open(output_path, "w") as f:
+        for i, line in enumerate(lines):
+            if i != end:
+                f.write(line)
+            else:
+                # no need to f.write(line) because line == \n
+                for row in rows:
+                    f.write(pollutants_row(row))
+                    f.write('\n')
+                f.write('\n')
 
 
 def extract_lines(path):
@@ -119,6 +140,13 @@ def main():
                 blocks_from_1=block_to_take_from_original,
                 blocks_from_2=block_to_take_from_format,
                 output_path=MERGE_OUTPUT_PATH)
+
+    rows_to_add = ['Aa,MG/L,1.0,1.0,1.0,1.0,NO'.split(','),
+                   'Bb,MG/L,2.0,2.0,2.0,2.0,YES'.split(','),
+                   'Cc,MG/L,3.0,3.0,3.0,3.0,NO'.split(',')]
+    add_pollutants_rows(input_path=MERGE_OUTPUT_PATH,
+                        rows=rows_to_add,
+                        output_path=ADD_ROWS_OUTPUT_PATH)
 
 
 if __name__ == '__main__':
